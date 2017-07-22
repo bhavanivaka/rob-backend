@@ -12,6 +12,12 @@ angular.module('myApp.bills', ['ngRoute', 'firebase'])
 
 // Home controller
 .controller('BillsCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) { 
+//Handle Account Status
+firebase.auth().onAuthStateChanged(user => {
+  if(user == null ) {
+    window.location = 'login.html'; //After successful login, user will be redirected to home.html
+  }
+    
     var billsRef = firebase.database().ref().child('bills'); 
      $scope.bills = $firebaseArray(billsRef);
 
@@ -57,6 +63,10 @@ angular.module('myApp.bills', ['ngRoute', 'firebase'])
     }
 
     $scope.goToBillsByOutlet = function() {
-        $location.path('outlet-bills')
+        $location.path('/outlet-bills')
     }
+    $scope.goToSearchOutlets = function() {
+        $location.path('/searchoutlets')
+    }
+});
 });

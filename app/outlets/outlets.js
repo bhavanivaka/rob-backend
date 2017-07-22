@@ -12,7 +12,10 @@ angular.module('myApp.outlets', ['ngRoute', 'firebase'])
 
 // Home controller
 .controller('OutletsCtrl', function($scope, $location, $firebaseObject ,$firebaseArray, $filter) { 
-	
+	firebase.auth().onAuthStateChanged(user => {
+  	if(user == null ) {
+  	 	window.location = 'login.html'; //After successful login, user will be redirected to home.html
+        }
 	$scope.date = new Date();
 	$scope.formattedDate =  $filter('date')($scope.date, "dd-MM-yyyy");
     $scope.outlet = {
@@ -25,17 +28,19 @@ angular.module('myApp.outlets', ['ngRoute', 'firebase'])
         "locality" : "",
         "name" : "",
         "offer" : "",
-		"date":$scope.formattedDate,
+	"date":$scope.formattedDate,
         "trending" : false
     }
-	var localitiesRef = firebase.database().ref().child('localities'); 
+    var localitiesRef = firebase.database().ref().child('localities'); 
     $scope.localities = $firebaseArray(localitiesRef);
     var outletsRef = firebase.database().ref().child('stores'); 
-	
-	 $scope.outlets = $firebaseArray(outletsRef);
+    $scope.outlets = $firebaseArray(outletsRef);
 
      $scope.goToCashback = function(){
         $location.path('/cashbacks');
+     }
+	$scope.goToSearchOutlets = function(){
+        $location.path('/searchoutlets');
      }
 
      $scope.goToBills = function(){
@@ -45,10 +50,9 @@ angular.module('myApp.outlets', ['ngRoute', 'firebase'])
     $scope.goToOffers = function(){
         $location.path('/offers');
     }
-
     $scope.submit = function(form){
         if(form.$valid) {
-            var key = firebase.database().ref().child('stores').push().key
+	    var key = firebase.database().ref().child('stores').push().key
             var newOutletRef = firebase.database().ref().child('stores/'+ key)
             newOutletRef.set($scope.outlet);
             newOutletRef.update({
@@ -61,4 +65,5 @@ angular.module('myApp.outlets', ['ngRoute', 'firebase'])
             console.log('ERROR');
         }
     }    
+});
 });

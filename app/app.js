@@ -10,6 +10,7 @@ angular.module('myApp', [
   'myApp.cashbacks',
   'myApp.outlets',
   'myApp.outlet-bills',
+  'myApp.searchoutlets',
   'myApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

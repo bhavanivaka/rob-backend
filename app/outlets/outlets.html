@@ -5,14 +5,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  
     <title>Rob Backend</title>
- 
+ <style>
+.button-container form,
+.button-container form div {
+    display: inline;
+    float: right;
+}
+
+.button-container button {
+    display: inline;
+    vertical-align: middle;
+}
+</style>
 </head>
  
 <body>
     <div class="container">
-        <h3 style="margin-bottom: 50px"><a ng-click="goToBills()">Bills</a> | <a ng-click="goToCashback()">Cashbacks</a> | Outlets | <a ng-click="goToOffers()">Offers</a></h3>
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal" style="margin-bottom: 25px">Add Outlet</button>
-        <div id="myModal" class="modal fade" role="dialog">
+        <h3 style="margin-bottom: 50px"><a ng-click="goToBills()">Bills</a> | <a ng-click="goToCashback()">Cashbacks</a> | Outlets | 
+	<a ng-click="goToSearchOutlets()">Filter Outlets</a> | <a ng-click="goToOffers()">Offers</a></h3>      
+	<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal" style="margin-bottom: 25px">Add Outlet</button>
+<div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <form name="outletForm" id="outletForm" ng-submit="submit(outletForm)">
             <!-- Modal content-->
@@ -35,10 +47,9 @@
                         <input type="text" ng-model="outlet.face" placeholder="Image link" required>
                     </label>
                     <label class="item item-input" style="margin: 10px 0">
-                        
-						<select id="LocationSelector" ng-model="outlet.locality" style="width: 100%;" required>
-							<option ng-repeat="data in localities">{{data.name}}</option>
-						</select>
+			<select id="LocationSelector" ng-model="outlet.locality" style="width: 100%;" required>
+				<option ng-repeat="data in localities">{{data.name}}</option>
+			</select>
                     </label>
                     <label class="item item-input" style="margin: 10px 0">
                         <input type="text" ng-model="outlet.address" placeholder="Address" required>
@@ -70,7 +81,7 @@
             <thead>
             <tr>
                 <td>Id</td>
-				<td>Date</td>
+		<td>Date</td>
                 <td>Name</td>
                 <td>Image</td>
                 <td>Address</td>
@@ -85,14 +96,14 @@
             <tbody ng-repeat="data in outlets | orderBy:'date'">
                 <tr>
                     <td>{{ data.id }}</td>
-					<td>{{data.date}}</td>
+		    <td>{{data.date}}</td>
                     <td>{{ data.name }}</td>
                     <td><img ng-src="{{ data.face }}" class="outlet-image"/></td>
                     <td>{{ data.address }}</td>
                     <td>{{ data.locality }}</td>
                     <td>{{ data.offer }}</td>
                     <td>{{ data.trending }}</td>
-					<td>{{ data.mobile }}</td>
+		    <td>{{ data.mobile }}</td>
                     <td>{{ data.description }}</td>
                     <td>{{ data.cashback }}</td>
                 </tr>

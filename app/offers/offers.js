@@ -12,6 +12,10 @@ angular.module('myApp.offers', ['ngRoute', 'firebase'])
 
 // Home controller
 .controller('OffersCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) { 
+  firebase.auth().onAuthStateChanged(user => {
+  if(user == null ) {
+    window.location = 'login.html'; //After successful login, user will be redirected to home.html
+  }
      var offersRef = firebase.database().ref().child('offers'); 
      $scope.offers = $firebaseArray(offersRef);
 
@@ -47,4 +51,5 @@ angular.module('myApp.offers', ['ngRoute', 'firebase'])
             console.log('ERROR');
         }
     }    
+});
 });

@@ -12,7 +12,10 @@ angular.module('myApp.outlet-bills', ['ngRoute', 'firebase'])
 
 // Home controller
 .controller('OutletBillsCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) { 
-
+    firebase.auth().onAuthStateChanged(user => {
+    if(user == null ) {
+   	window.location = 'login.html'; //After successful login, user will be redirected to login.html
+    }
     $scope.store_id = null;
 
     $scope.submit = function(form){
@@ -25,7 +28,8 @@ angular.module('myApp.outlet-bills', ['ngRoute', 'firebase'])
             console.log('ERROR');
         }
     } 
-
+     var storeRef = firebase.database().ref().child('stores'); 
+     $scope.stores = $firebaseArray(storeRef);
      var billsRef = firebase.database().ref().child('bills').orderByChild('store_id').equalTo($scope.store_id); 
      $scope.bills = $firebaseArray(billsRef);
 
@@ -44,4 +48,5 @@ angular.module('myApp.outlet-bills', ['ngRoute', 'firebase'])
     $scope.goToOutlets = function(){
         $location.path('/outlets');
     }
+});
 });

@@ -11,7 +11,11 @@ angular.module('myApp.cashbacks', ['ngRoute', 'firebase'])
 }])
 
 // Home controller
-.controller('CashbacksCtrl', function($scope, $location, $http, $firebaseObject ,$firebaseArray) { 
+.controller('CashbacksCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) { 
+  firebase.auth().onAuthStateChanged(user => {
+  if(user == null ) {
+    window.location = 'login.html'; //After successful login, user will be redirected to home.html
+  }
     var cashbacksRef = firebase.database().ref().child('cashbacks'); 
     $scope.cashbacks = $firebaseArray(cashbacksRef);
 
@@ -47,4 +51,5 @@ angular.module('myApp.cashbacks', ['ngRoute', 'firebase'])
     $scope.goToOffers = function(){
         $location.path('/offers');
     }
+});
 });
