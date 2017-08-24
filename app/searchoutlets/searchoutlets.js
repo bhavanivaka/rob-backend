@@ -1,17 +1,19 @@
 'use strict';
- 
 angular.module('myApp.searchoutlets', ['ngRoute', 'firebase'])
- 
-// Declared route 
+ // Declared route 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/searchoutlets', {
         templateUrl: 'searchoutlets/searchoutlets.html',
         controller: 'searchoutletsCtrl'
     });
 }])
-
-.controller('searchoutletsCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) {
-    
+.controller('searchoutletsCtrl', function($scope, $location, $firebaseObject ,$firebaseArray) {   
+//Handle Account Status
+  firebase.auth().onAuthStateChanged(user => {
+  if(user == null ) 
+  {
+        window.location = 'login.html'; //After successful login, user will be redirected to home.html
+  }   
     $scope.localities = null;
     $scope.submit = function(form){
         if(form.$valid) {
@@ -44,7 +46,6 @@ angular.module('myApp.searchoutlets', ['ngRoute', 'firebase'])
             console.log('ERROR');
         }
     }
-    
     var storesRef = firebase.database().ref().child('stores'); 
     $scope.stores = $firebaseArray(storesRef); 
     $scope.goToCashbacks = function(){
@@ -57,8 +58,16 @@ angular.module('myApp.searchoutlets', ['ngRoute', 'firebase'])
      $scope.goToOutlets = function(){
         $location.path('/outlets');
     }
-
     $scope.goToOffers = function(){
         $location.path('/offers');
     }
+    $scope.goToDashboard = function()
+    {
+        $location.path('/dashboard')
+    }
+    $scope.goToUsers = function()
+    {
+        $location.path('/users')
+    }
+});
 });
